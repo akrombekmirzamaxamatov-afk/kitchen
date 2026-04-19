@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111213" />
+  <title>Stol tanlash — FASTBIT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #111213;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 40px;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ── */
+    .header {
+      width: 100%;
+      background: #1A1B1D;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 20px 24px 18px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .logo-dot {
+      width: 10px;
+      height: 10px;
+      background: #FF3C1F;
+      border-radius: 50%;
+      display: inline-block;
+      margin-bottom: 2px;
+      box-shadow: 0 0 10px rgba(255,60,31,0.6);
+    }
+
+    .header-sub {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 36px 24px 8px;
+      text-align: center;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: #fff;
+      letter-spacing: 1px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 span {
+      color: #FF3C1F;
+    }
+
+    .hero p {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.3px;
+    }
+
+    /* ── Grid ── */
+    .grid-wrap {
+      width: 100%;
+      max-width: 480px;
+      padding: 28px 20px 0;
+    }
+
+    .tables-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    /* ── Table card ── */
+    .table-btn {
+      all: unset;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: #1A1B1D;
+      border: 1.5px solid rgba(255,255,255,0.07);
+      border-radius: 18px;
+      padding: 18px 8px;
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .table-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,60,31,0.12) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+
+    .table-btn:hover {
+      border-color: rgba(255,60,31,0.5);
+      background: #202224;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .table-btn:hover::before { opacity: 1; }
+
+    .table-btn:active {
+      transform: scale(0.93);
+      border-color: #FF3C1F;
+      background: rgba(255,60,31,0.1);
+    }
+
+    .table-icon {
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .table-label {
+      font-size: 11px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .table-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: #ffffff;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    /* ── Footer note ── */
+    .footer-note {
+      margin-top: 36px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.5px;
+      padding: 0 24px;
+    }
+
+    .footer-note span {
+      color: #FF3C1F;
+      opacity: 0.7;
+    }
+
+    /* ── Responsive ── */
+    @media (min-width: 400px) {
+      .tables-grid { gap: 14px; }
+      .table-btn { padding: 20px 8px; border-radius: 20px; }
+      .table-num { font-size: 32px; }
+    }
+
+    @media (min-width: 480px) {
+      .hero h1 { font-size: 56px; }
+      .table-btn { padding: 24px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      FAST<em style="font-style:normal;color:#FFD23F;">BIT</em>
+    </div>
+    <p class="header-sub">Restoran · Buyurtma</p>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Stolni<br><span>tanlang</span></h1>
+    <p>Stolingiz raqamini bosing va buyurtma bering</p>
+  </section>
+
+  <!-- Tables grid -->
+  <div class="grid-wrap">
+    <div class="tables-grid" id="tablesGrid"></div>
+  </div>
+
+  <!-- Footer -->
+  <p class="footer-note">
+    Jami <span>20 ta stol</span> mavjud
+  </p>
+
+  <script>
+    const grid = document.getElementById('tablesGrid');
+
+    const ICONS = ['🪑','🪑','🪑','🪑','🪑','🪑','🪑','🪑','🪑','🪑',
+                   '🪑','🪑','🪑','🪑','🪑','🪑','🪑','🪑','🪑','🪑'];
+
+    for (let i = 1; i <= 20; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'table-btn';
+      btn.setAttribute('aria-label', `Stol ${i}`);
+      btn.innerHTML = `
+        <span class="table-icon">🪑</span>
+        <span class="table-label">Stol</span>
+        <span class="table-num">${i}</span>
+      `;
+      btn.addEventListener('click', () => {
+        btn.style.borderColor = '#FF3C1F';
+        btn.style.background  = 'rgba(255,60,31,0.15)';
+        setTimeout(() => {
+          window.location.href = `index.html?table=${i}`;
+        }, 180);
+      });
+      grid.appendChild(btn);
+    }
+  </script>
+
+</body>
+</html>

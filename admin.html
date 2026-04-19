@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0D0E0F" />
+  <title>Admin — FASTBIT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --bg:       #0D0E0F;
+      --surface:  #141516;
+      --card:     #1A1B1D;
+      --card2:    #202224;
+      --border:   rgba(255,255,255,0.07);
+      --red:      #FF3C1F;
+      --red-dim:  rgba(255,60,31,0.15);
+      --yellow:   #FFD23F;
+      --green:    #4ADE80;
+      --orange:   #FB923C;
+      --blue:     #60A5FA;
+      --muted:    rgba(255,255,255,0.3);
+      --text:     rgba(255,255,255,0.88);
+      --font:     'Nunito', sans-serif;
+      --display:  'Bebas Neue', sans-serif;
+      --radius:   16px;
+      --radius-sm:10px;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      padding-bottom: 60px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: var(--display);
+      font-size: 24px;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: var(--red);
+      border-radius: 9px;
+      display: grid; place-items: center;
+      font-size: 15px;
+      box-shadow: 0 4px 12px rgba(255,60,31,0.4);
+    }
+
+    .logo em { font-style: normal; color: var(--yellow); }
+
+    .header-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 12px;
+    }
+
+    /* ── Nav tabs ── */
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 14px 16px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.18s;
+    }
+
+    .tab-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(255,60,31,0.3);
+    }
+
+    .tab-btn:hover:not(.active) { color: #fff; border-color: rgba(255,255,255,0.2); }
+
+    /* ── Page sections ── */
+    .page { display: none; padding: 16px; }
+    .page.active { display: block; }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-family: var(--display);
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      color: #fff;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title i { color: var(--red); font-size: 15px; }
+
+    /* ── Stats grid ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    @media (min-width: 600px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .stat-card {
+      background: var(--card2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-card .s-icon {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .stat-card .s-val {
+      font-family: var(--display);
+      font-size: 32px;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .stat-card .s-lbl {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .stat-card.c-red    .s-val { color: var(--red); }
+    .stat-card.c-yellow .s-val { color: var(--yellow); }
+    .stat-card.c-green  .s-val { color: var(--green); }
+    .stat-card.c-blue   .s-val { color: var(--blue); }
+    .stat-card.c-orange .s-val { color: var(--orange); }
+
+    /* ── Form ── */
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 480px) { .form-row { flex-direction: row; } }
+
+    .inp {
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--card2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.18s;
+      width: 100%;
+    }
+
+    .inp::placeholder { color: rgba(255,255,255,0.2); font-weight: 700; }
+    .inp:focus { border-color: rgba(255,60,31,0.5); }
+
+    select.inp { cursor: pointer; }
+
+    .btn {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      padding: 11px 20px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+      transition: all 0.18s;
+      flex-shrink: 0;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(255,60,31,0.3);
+    }
+
+    .btn-primary:hover { background: #D42E12; }
+    .btn-primary:active { transform: scale(0.95); }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.5);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { background: rgba(255,60,31,0.12); color: var(--red); border-color: rgba(255,60,31,0.3); }
+
+    /* ── Table ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      text-align: left;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 0 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table td {
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-weight: 700;
+      vertical-align: middle;
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .data-table td:last-child {
+      text-align: right;
+    }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .badge-burger  { background: rgba(251,146,60,0.15); color: #FB923C; }
+    .badge-lavash  { background: rgba(96,165,250,0.15); color: #60A5FA; }
+    .badge-drinks  { background: rgba(74,222,128,0.15); color: #4ADE80; }
+    .badge-snacks  { background: rgba(255,210,63,0.15); color: #FFD23F; }
+    .badge-other   { background: rgba(255,255,255,0.08); color: var(--muted); }
+
+    /* ── Delete btn ── */
+    .btn-del {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.2);
+      cursor: pointer;
+      font-size: 13px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-del:hover { background: rgba(255,60,31,0.15); color: var(--red); }
+
+    /* ── Order rows ── */
+    .order-row {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .order-row .o-table {
+      font-family: var(--display);
+      font-size: 28px;
+      line-height: 1;
+      color: #fff;
+      flex-shrink: 0;
+      min-width: 36px;
+    }
+
+    .order-row .o-meta { flex: 1; }
+
+    .order-row .o-items {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    .order-row .o-total {
+      font-family: var(--display);
+      font-size: 20px;
+      color: var(--green);
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .order-row .o-time {
+      font-size: 11px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── Empty ── */
+    .empty-msg {
+      text-align: center;
+      padding: 28px 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .empty-msg i { font-size: 28px; opacity: 0.3; }
+
+    /* ── Worker card ── */
+    .worker-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .worker-left { display: flex; align-items: center; gap: 10px; }
+
+    .worker-avatar {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--red), #FF7849);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-family: var(--display);
+      font-size: 18px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .worker-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .worker-role {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .worker-salary {
+      font-family: var(--display);
+      font-size: 20px;
+      color: var(--yellow);
+      flex-shrink: 0;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 14px 0;
+    }
+
+    /* ── Total row ── */
+    .total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0 0;
+    }
+
+    .total-row .t-lbl {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .total-row .t-val {
+      font-family: var(--display);
+      font-size: 26px;
+      color: #fff;
+    }
+
+    /* ── Scrollable order list ── */
+    .order-list {
+      max-height: 420px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">🔥</div>
+    FAST<em>BIT</em>
+  </div>
+  <div class="header-tag">Admin Panel</div>
+</header>
+
+<!-- Nav tabs -->
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab('overview')">
+    <i class="fa-solid fa-chart-line"></i> Umumiy
+  </button>
+  <button class="tab-btn" onclick="switchTab('products')">
+    <i class="fa-solid fa-burger"></i> Mahsulotlar
+  </button>
+  <button class="tab-btn" onclick="switchTab('orders')">
+    <i class="fa-solid fa-receipt"></i> Buyurtmalar
+  </button>
+  <button class="tab-btn" onclick="switchTab('workers')">
+    <i class="fa-solid fa-users"></i> Xodimlar
+  </button>
+</div>
+
+<!-- ═══════ OVERVIEW ═══════ -->
+<div class="page active" id="page-overview">
+
+  <div style="height:14px"></div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card c-yellow">
+      <div class="s-icon">📦</div>
+      <div class="s-val" id="s-orders">0</div>
+      <div class="s-lbl">Buyurtmalar</div>
+    </div>
+    <div class="stat-card c-green">
+      <div class="s-icon">💰</div>
+      <div class="s-val" id="s-revenue">0</div>
+      <div class="s-lbl">Daromad (K)</div>
+    </div>
+    <div class="stat-card c-blue">
+      <div class="s-icon">🍔</div>
+      <div class="s-val" id="s-products">0</div>
+      <div class="s-lbl">Mahsulotlar</div>
+    </div>
+    <div class="stat-card c-orange">
+      <div class="s-icon">👷</div>
+      <div class="s-val" id="s-workers">0</div>
+      <div class="s-lbl">Xodimlar</div>
+    </div>
+  </div>
+
+  <!-- Revenue vs salary -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-scale-balanced"></i> Moliyaviy ko'rinish</div>
+    <div class="stats-grid" style="margin-bottom:0">
+      <div class="stat-card c-green">
+        <div class="s-icon">📈</div>
+        <div class="s-val" id="ov-revenue">0</div>
+        <div class="s-lbl">Daromad (K so'm)</div>
+      </div>
+      <div class="stat-card c-red">
+        <div class="s-icon">📉</div>
+        <div class="s-val" id="ov-salaries">0</div>
+        <div class="s-lbl">Maosh (K so'm)</div>
+      </div>
+      <div class="stat-card c-yellow">
+        <div class="s-icon">💵</div>
+        <div class="s-val" id="ov-profit">0</div>
+        <div class="s-lbl">Foyda (K so'm)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent orders -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> So'nggi buyurtmalar</div>
+    <div class="order-list" id="ov-orders-list">
+      <div class="empty-msg"><i class="fa-solid fa-inbox"></i>Buyurtmalar yo'q</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════ PRODUCTS ═══════ -->
+<div class="page" id="page-products">
+
+  <div style="height:14px"></div>
+
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-plus"></i> Yangi mahsulot</div>
+    <div class="form-row">
+      <input  class="inp" id="p-name"     type="text"   placeholder="Mahsulot nomi" />
+      <input  class="inp" id="p-price"    type="number" placeholder="Narx (so'm)"  />
+      <select class="inp" id="p-category">
+        <option value="burger">🍔 Burger</option>
+        <option value="lavash">🌯 Lavash</option>
+        <option value="drinks">🥤 Ichimlik</option>
+        <option value="snacks">🍟 Snack</option>
+        <option value="other">📦 Boshqa</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="addProduct()">
+      <i class="fa-solid fa-plus"></i> Qo'shish
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-list"></i> Mahsulotlar ro'yxati</div>
+    <div id="products-table-wrap">
+      <div class="empty-msg"><i class="fa-solid fa-burger"></i>Mahsulotlar yo'q</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════ ORDERS ═══════ -->
+<div class="page" id="page-orders">
+
+  <div style="height:14px"></div>
+
+  <div class="stats-grid">
+    <div class="stat-card c-yellow">
+      <div class="s-icon">🧾</div>
+      <div class="s-val" id="ord-count">0</div>
+      <div class="s-lbl">Jami buyurtma</div>
+    </div>
+    <div class="stat-card c-green">
+      <div class="s-icon">💰</div>
+      <div class="s-val" id="ord-revenue">0</div>
+      <div class="s-lbl">Jami (K so'm)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <div class="card-title" style="margin-bottom:0"><i class="fa-solid fa-receipt"></i> Barcha buyurtmalar</div>
+      <button class="btn btn-ghost" onclick="clearOrders()" style="font-size:11px;padding:7px 12px;">
+        <i class="fa-solid fa-trash"></i> Tozalash
+      </button>
+    </div>
+    <div class="order-list" id="orders-list">
+      <div class="empty-msg"><i class="fa-solid fa-inbox"></i>Buyurtmalar yo'q</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════ WORKERS ═══════ -->
+<div class="page" id="page-workers">
+
+  <div style="height:14px"></div>
+
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-user-plus"></i> Xodim qo'shish</div>
+    <div class="form-row">
+      <input class="inp" id="w-name"   type="text"   placeholder="Xodim ismi" />
+      <input class="inp" id="w-role"   type="text"   placeholder="Lavozim (ixtiyoriy)" />
+      <input class="inp" id="w-salary" type="number" placeholder="Oylik maosh (so'm)" />
+    </div>
+    <button class="btn btn-primary" onclick="addWorker()">
+      <i class="fa-solid fa-plus"></i> Qo'shish
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-users"></i> Xodimlar</div>
+    <div id="workers-list">
+      <div class="empty-msg"><i class="fa-solid fa-users"></i>Xodimlar yo'q</div>
+    </div>
+    <div class="divider"></div>
+    <div class="total-row">
+      <span class="t-lbl">Jami maosh xarajati</span>
+      <span class="t-val" id="total-salary">0 so'm</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   STORAGE HELPERS
+══════════════════════════════════════════ */
+const ls = {
+  get:  key       => { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } },
+  set:  (key, val) => localStorage.setItem(key, JSON.stringify(val)),
+};
+
+/* ══════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════ */
+function fmt(n)    { return Number(n).toLocaleString('uz-UZ') + " so'm"; }
+function fmtK(n)   { return Math.round(n / 1000).toLocaleString('uz-UZ'); }
+function fmtTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('uz-UZ', { day:'2-digit', month:'short' }) +
+         ' ' + d.toLocaleTimeString('uz-UZ', { hour:'2-digit', minute:'2-digit' });
+}
+
+function catBadge(cat) {
+  const map = { burger:'badge-burger', lavash:'badge-lavash', drinks:'badge-drinks', snacks:'badge-snacks' };
+  const lbl = { burger:'Burger', lavash:'Lavash', drinks:'Drinks', snacks:'Snacks', other:'Other' };
+  return `<span class="badge ${map[cat] || 'badge-other'}">${lbl[cat] || cat}</span>`;
+}
+
+/* ══════════════════════════════════════════
+   TAB SWITCH
+══════════════════════════════════════════ */
+function switchTab(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  renderAll();
+}
+
+/* ══════════════════════════════════════════
+   OVERVIEW
+══════════════════════════════════════════ */
+function renderOverview() {
+  const orders  = ls.get('orders');
+  const workers = ls.get('workers');
+  const products= ls.get('products');
+
+  const revenue  = orders.reduce((s, o) => s + (o.grandTotal || 0), 0);
+  const salaries = workers.reduce((s, w) => s + (Number(w.salary) || 0), 0);
+  const profit   = revenue - salaries;
+
+  document.getElementById('s-orders').textContent   = orders.length;
+  document.getElementById('s-revenue').textContent  = fmtK(revenue);
+  document.getElementById('s-products').textContent = products.length;
+  document.getElementById('s-workers').textContent  = workers.length;
+
+  document.getElementById('ov-revenue').textContent  = fmtK(revenue);
+  document.getElementById('ov-salaries').textContent = fmtK(salaries);
+  document.getElementById('ov-profit').textContent   = fmtK(profit);
+
+  /* Recent orders */
+  const listEl = document.getElementById('ov-orders-list');
+  if (orders.length === 0) {
+    listEl.innerHTML = `<div class="empty-msg"><i class="fa-solid fa-inbox"></i>Buyurtmalar yo'q</div>`;
+    return;
+  }
+  listEl.innerHTML = [...orders].reverse().slice(0, 10).map(o => `
+    <div class="order-row">
+      <div class="o-table">${o.table || '—'}</div>
+      <div class="o-meta">
+        <div class="o-time">${fmtTime(o.timestamp)}</div>
+        <div class="o-items">${(o.items || []).map(i => `${i.qty}× ${i.name}`).join(' · ')}</div>
+      </div>
+      <div class="o-total">${fmtK(o.grandTotal)}K</div>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════
+   PRODUCTS
+══════════════════════════════════════════ */
+function addProduct() {
+  const name  = document.getElementById('p-name').value.trim();
+  const price = Number(document.getElementById('p-price').value);
+  const cat   = document.getElementById('p-category').value;
+
+  if (!name || !price) return shake('p-name');
+
+  const products = ls.get('products');
+  products.push({ id: Date.now().toString(), name, price, category: cat });
+  ls.set('products', products);
+
+  document.getElementById('p-name').value  = '';
+  document.getElementById('p-price').value = '';
+  renderProducts();
+  renderOverview();
+}
+
+function deleteProduct(id) {
+  ls.set('products', ls.get('products').filter(p => p.id !== id));
+  renderProducts();
+  renderOverview();
+}
+
+function renderProducts() {
+  const products = ls.get('products');
+  const wrap     = document.getElementById('products-table-wrap');
+
+  if (products.length === 0) {
+    wrap.innerHTML = `<div class="empty-msg"><i class="fa-solid fa-burger"></i>Mahsulotlar yo'q</div>`;
+    return;
+  }
+
+  wrap.innerHTML = `
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Nomi</th>
+          <th>Kategoriya</th>
+          <th>Narx</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${products.map(p => `
+          <tr>
+            <td style="font-weight:800;color:#fff;">${p.name}</td>
+            <td>${catBadge(p.category)}</td>
+            <td style="color:var(--yellow);font-family:var(--display);font-size:17px;">${fmt(p.price)}</td>
+            <td>
+              <button class="btn-del" onclick="deleteProduct('${p.id}')">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+/* ══════════════════════════════════════════
+   ORDERS
+══════════════════════════════════════════ */
+function renderOrders() {
+  const orders  = ls.get('orders');
+  const revenue = orders.reduce((s, o) => s + (o.grandTotal || 0), 0);
+
+  document.getElementById('ord-count').textContent   = orders.length;
+  document.getElementById('ord-revenue').textContent = fmtK(revenue);
+
+  const listEl = document.getElementById('orders-list');
+  if (orders.length === 0) {
+    listEl.innerHTML = `<div class="empty-msg"><i class="fa-solid fa-inbox"></i>Buyurtmalar yo'q</div>`;
+    return;
+  }
+
+  listEl.innerHTML = [...orders].reverse().map(o => `
+    <div class="order-row">
+      <div class="o-table">${o.table || '—'}</div>
+      <div class="o-meta">
+        <div class="o-time">${fmtTime(o.timestamp)}</div>
+        <div class="o-items">${(o.items || []).map(i => `${i.qty}× ${i.name}`).join(' · ')}</div>
+      </div>
+      <div class="o-total">${fmtK(o.grandTotal)}K</div>
+    </div>
+  `).join('');
+}
+
+function clearOrders() {
+  if (!confirm("Barcha buyurtmalarni o'chirasizmi?")) return;
+  ls.set('orders', []);
+  ls.set('order_statuses', {});
+  renderOrders();
+  renderOverview();
+}
+
+/* ══════════════════════════════════════════
+   WORKERS
+══════════════════════════════════════════ */
+function addWorker() {
+  const name   = document.getElementById('w-name').value.trim();
+  const role   = document.getElementById('w-role').value.trim();
+  const salary = Number(document.getElementById('w-salary').value);
+
+  if (!name || !salary) return shake('w-name');
+
+  const workers = ls.get('workers');
+  workers.push({ id: Date.now().toString(), name, role: role || 'Xodim', salary });
+  ls.set('workers', workers);
+
+  document.getElementById('w-name').value   = '';
+  document.getElementById('w-role').value   = '';
+  document.getElementById('w-salary').value = '';
+  renderWorkers();
+  renderOverview();
+}
+
+function deleteWorker(id) {
+  ls.set('workers', ls.get('workers').filter(w => w.id !== id));
+  renderWorkers();
+  renderOverview();
+}
+
+function renderWorkers() {
+  const workers      = ls.get('workers');
+  const totalSalary  = workers.reduce((s, w) => s + (Number(w.salary) || 0), 0);
+  const listEl       = document.getElementById('workers-list');
+
+  document.getElementById('total-salary').textContent = fmt(totalSalary);
+
+  if (workers.length === 0) {
+    listEl.innerHTML = `<div class="empty-msg"><i class="fa-solid fa-users"></i>Xodimlar yo'q</div>`;
+    return;
+  }
+
+  listEl.innerHTML = workers.map(w => `
+    <div class="worker-card">
+      <div class="worker-left">
+        <div class="worker-avatar">${w.name.charAt(0).toUpperCase()}</div>
+        <div>
+          <div class="worker-name">${w.name}</div>
+          <div class="worker-role">${w.role}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="worker-salary">${fmtK(w.salary)}K</div>
+        <button class="btn-del" onclick="deleteWorker('${w.id}')">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ══════════════════════════════════════════
+   SHAKE ANIMATION (validation)
+══════════════════════════════════════════ */
+function shake(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = '#FF3C1F';
+  el.style.animation   = 'shake 0.3s ease';
+  setTimeout(() => { el.style.animation = ''; el.style.borderColor = ''; }, 400);
+}
+
+const shakeStyle = document.createElement('style');
+shakeStyle.textContent = `
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25%      { transform: translateX(-6px); }
+    75%      { transform: translateX(6px); }
+  }
+`;
+document.head.appendChild(shakeStyle);
+
+/* ══════════════════════════════════════════
+   RENDER ALL
+══════════════════════════════════════════ */
+function renderAll() {
+  renderOverview();
+  renderProducts();
+  renderOrders();
+  renderWorkers();
+}
+
+/* ── Init ── */
+renderAll();
+setInterval(renderAll, 5000);
+</script>
+</body>
+</html>
