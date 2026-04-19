@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="uz" data-lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FF3C1F" />
+  <title>QR Menu — Buyurtma</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="./css/style.css" />
+  <style>
+    .tables-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.18s ease;
+    }
+    .tables-link i  { font-size: 12px; opacity: 0.8; }
+    .tables-link:hover {
+      background: #FF3C1F;
+      border-color: #FF3C1F;
+      box-shadow: 0 4px 14px rgba(255,60,31,0.35);
+    }
+    .tables-link:active { transform: scale(0.93); }
+  </style>
+</head>
+<body>
+
+  <!-- ░░ OVERLAY (cart backdrop) ░░ -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- ════════════════════════════
+       HEADER
+  ════════════════════════════ -->
+  <header class="header">
+    <div class="header__inner">
+
+      <!-- Logo -->
+      <a href="#" class="logo">
+        <span class="logo__icon"><i class="fa-solid fa-fire-flame-curved"></i></span>
+        <span class="logo__text">FAST<em>BIT</em></span>
+      </a>
+
+      <!-- Right controls -->
+      <div class="header__controls">
+
+        <!-- Tables link -->
+        <a href="./tables.html" class="tables-link">
+          <i class="fa-solid fa-chair"></i>
+          <span>Stollar</span>
+        </a>
+
+        <!-- Language switcher -->
+        <div class="lang-switcher" id="langSwitcher">
+          <button class="lang-btn active" data-lang="uz">UZ</button>
+          <button class="lang-btn" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+
+        <!-- Cart trigger -->
+        <button class="cart-trigger" id="cartTrigger" aria-label="Savat">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Table tag -->
+    <div class="table-tag">
+      <i class="fa-solid fa-qrcode"></i>
+      <span data-i18n="table">Stol</span>: <strong id="tableNumber">12</strong>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════
+       HERO BANNER
+  ════════════════════════════ -->
+  <section class="hero">
+    <div class="hero__text">
+      <p class="hero__subtitle" data-i18n="heroSub">Tez va qulay buyurtma</p>
+      <h1 class="hero__title" data-i18n="heroTitle">Nimani<br>yeysiz?</h1>
+    </div>
+    <div class="hero__art">
+      <div class="hero__circle"></div>
+      <span class="hero__emoji">🍔</span>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       CATEGORIES
+  ════════════════════════════ -->
+  <section class="categories" id="categories">
+    <div class="categories__scroll">
+
+      <button class="cat-btn active" data-category="burger">
+        <span class="cat-btn__icon">🍔</span>
+        <span class="cat-btn__label" data-i18n="catBurger">Burger</span>
+      </button>
+
+      <button class="cat-btn" data-category="lavash">
+        <span class="cat-btn__icon">🌯</span>
+        <span class="cat-btn__label" data-i18n="catLavash">Lavash</span>
+      </button>
+
+      <button class="cat-btn" data-category="drinks">
+        <span class="cat-btn__icon">🥤</span>
+        <span class="cat-btn__label" data-i18n="catDrinks">Ichimlik</span>
+      </button>
+
+      <button class="cat-btn" data-category="snacks">
+        <span class="cat-btn__icon">🍟</span>
+        <span class="cat-btn__label" data-i18n="catSnacks">Snack</span>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       PRODUCTS SECTION
+  ════════════════════════════ -->
+  <main class="products-section">
+    <div class="section-header">
+      <h2 class="section-title" id="sectionTitle" data-i18n="catBurger">Burger</h2>
+      <span class="section-count" id="sectionCount">— 0 ta</span>
+    </div>
+
+    <!-- Product cards injected here by JS -->
+    <div class="products-grid" id="productsGrid">
+
+      <!-- Skeleton placeholders shown before JS loads -->
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+      <div class="product-skeleton"></div>
+
+    </div>
+  </main>
+
+  <!-- ════════════════════════════
+       CART SIDEBAR
+  ════════════════════════════ -->
+  <aside class="cart-sidebar" id="cartSidebar" aria-hidden="true">
+
+    <div class="cart-sidebar__header">
+      <h2 data-i18n="cartTitle">Savatingiz</h2>
+      <button class="cart-close" id="cartClose" aria-label="Yopish">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Cart items list -->
+    <div class="cart-items" id="cartItems">
+      <!-- Empty state -->
+      <div class="cart-empty" id="cartEmpty">
+        <span class="cart-empty__icon">🛍️</span>
+        <p data-i18n="cartEmpty">Savat bo'sh</p>
+        <small data-i18n="cartEmptySub">Mahsulot qo'shing</small>
+      </div>
+    </div>
+
+    <!-- Cart footer -->
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-footer__row">
+        <span data-i18n="subtotal">Jami:</span>
+        <strong id="cartTotal">0 so'm</strong>
+      </div>
+
+      <div class="cart-footer__row cart-footer__row--muted">
+        <span data-i18n="service">Xizmat:</span>
+        <span>Bepul</span>
+      </div>
+
+      <div class="cart-footer__divider"></div>
+
+      <button class="btn-order" id="btnOrder">
+        <i class="fa-solid fa-bell-concierge"></i>
+        <span data-i18n="placeOrder">Buyurtma berish</span>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ════════════════════════════
+       ORDER SUCCESS TOAST
+  ════════════════════════════ -->
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span data-i18n="toastMsg">Buyurtmangiz qabul qilindi!</span>
+  </div>
+
+  <!-- ════════════════════════════
+       BOTTOM NAV (mobile)
+  ════════════════════════════ -->
+  <nav class="bottom-nav">
+    <a href="#" class="bottom-nav__item active">
+      <i class="fa-solid fa-house"></i>
+      <span data-i18n="navHome">Bosh</span>
+    </a>
+    <a href="#categories" class="bottom-nav__item">
+      <i class="fa-solid fa-grid-2"></i>
+      <span data-i18n="navMenu">Menyu</span>
+    </a>
+    <a href="#" class="bottom-nav__item" id="bottomCartBtn">
+      <i class="fa-solid fa-bag-shopping"></i>
+      <span data-i18n="navCart">Savat</span>
+    </a>
+  </nav>
+
+  <!-- App JS -->
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/menu.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="./js/core/app.js"></script>
+
+</body>
+</html>
